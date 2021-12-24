@@ -14,14 +14,16 @@ export const ProductItem: React.FC<Props> = ({ product, onDelete, onChange }) =>
 
   return (
     <li className="Product">
-      <div>
+      <div className="Product__control-panel">
         <button
+          className="Product__btn Product__btn-delete"
           type="button"
           onClick={() => onDelete(product.id)}
         >
           Delete
         </button>
         <button
+          className="Product__btn Product__btn-change"
           type="button"
           onClick={() => onChange({ ...product })}
         >
