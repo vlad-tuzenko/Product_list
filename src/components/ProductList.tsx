@@ -6,14 +6,20 @@ import './ProductList.scss';
 type Prop = {
   products: Product[];
   onDelete(id:number):void;
+  onChange(product: Product):void;
 };
 
-export const ProductList: React.FC<Prop> = ({ products, onDelete }) => {
+export const ProductList: React.FC<Prop> = ({ products, onDelete, onChange }) => {
   return (
     <>
       <ul className="ProductList">
         {products.map(product => (
-          <ProductItem product={product} onDelete={onDelete} key={product.id} />
+          <ProductItem
+            product={product}
+            onDelete={onDelete}
+            onChange={onChange}
+            key={product.id}
+          />
         ))}
       </ul>
     </>

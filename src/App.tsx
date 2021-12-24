@@ -4,16 +4,23 @@ import { ProductList } from './components/ProductList';
 import { Product } from './types';
 import productsFromServer from './api/products.json';
 import { NewProduct } from './components/NewProduct';
+import { ChangeProduct } from './components/ChangeProduct';
 
 type State = {
   products: Product[];
   showModal: boolean;
+  addProduct: boolean;
+  changeProduct: boolean;
+  changedProduct: Product | null;
 };
 
 export class App extends React.Component<{}, State> {
   state: State = {
     products: [],
     showModal: false,
+    addProduct: false,
+    changeProduct: false,
+    changedProduct: null,
   };
 
   componentDidMount() {
@@ -33,31 +40,71 @@ export class App extends React.Component<{}, State> {
     }));
   };
 
-  showModal = () => {
+  clickOnAdd = () => {
     this.setState(state => ({
       showModal: !state.showModal,
+      addProduct: !state.addProduct,
     }));
   };
 
+  clickOnChange = (product: Product) => {
+    this.setState(state => ({
+      showModal: !state.showModal,
+      changeProduct: !state.changeProduct,
+      changedProduct: product,
+    }));
+  };
+
+  saveChange = (changedProduct: Product) => {
+    this.setState(state => {
+      return ({
+        products: [
+          ...state.products,
+          changedProduct,
+        ],
+      });
+    });
+  };
+
   render(): React.ReactNode {
-    const { products, showModal } = this.state;
+    const {
+      products, showModal, addProduct, changeProduct, changedProduct,
+    } = this.state;
 
     return (
       <div className="App">
         <div className="App__sidebar">
-          <button
-            type="button"
-            onClick={this.showModal}
-            hidden={showModal}
-          >
-            Add product
-          </button>
-          <ProductList products={products} onDelete={this.deleteProduct} />
+          <div className="App__sidebar-panel">
+            <button
+              className="App__sidebar-btn"
+              type="button"
+              onClick={this.clickOnAdd}
+              hidden={showModal}
+            >
+              Add product
+            </button>
+          </div>
+          <ProductList
+            products={products}
+            onDelete={this.deleteProduct}
+            onChange={this.clickOnChange}
+          />
         </div>
 
-        {showModal && (
+        {showModal && addProduct && (
           <div className="App__content">
-            <NewProduct onAdd={this.addProduct} onCancel={this.showModal} />
+            <NewProduct onAdd={this.addProduct} onCancel={this.clickOnAdd} />
+          </div>
+        )}
+        {showModal && changeProduct && (
+          <div className="App__content">
+            {changedProduct && (
+              <ChangeProduct
+                onCancel={this.clickOnAdd}
+                product={changedProduct}
+                changeProduct={this.saveChange}
+              />
+            )}
           </div>
         )}
       </div>
