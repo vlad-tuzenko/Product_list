@@ -27,6 +27,12 @@ export class App extends React.Component<{}, State> {
     }));
   };
 
+  deleteProduct = (id:number) => {
+    this.setState(state => ({
+      products: state.products.filter(product => product.id !== id),
+    }));
+  };
+
   showModal = () => {
     this.setState(state => ({
       showModal: !state.showModal,
@@ -39,8 +45,14 @@ export class App extends React.Component<{}, State> {
     return (
       <div className="App">
         <div className="App__sidebar">
-          <button type="button" onClick={this.showModal} hidden={showModal}>Add product</button>
-          <ProductList products={products} />
+          <button
+            type="button"
+            onClick={this.showModal}
+            hidden={showModal}
+          >
+            Add product
+          </button>
+          <ProductList products={products} onDelete={this.deleteProduct} />
         </div>
 
         {showModal && (
