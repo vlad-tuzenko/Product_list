@@ -1,32 +1,53 @@
 import React from 'react';
 import './App.scss';
-// import { ProductItem } from './components/ProductItem';
 import { ProductList } from './components/ProductList';
 import { Product } from './types';
 import productsFromServer from './api/products.json';
+import { NewProduct } from './components/NewProduct';
 
 type State = {
-  products: Product[]
+  products: Product[];
+  showModal: boolean;
 };
 
 export class App extends React.Component<{}, State> {
   state: State = {
     products: [],
+    showModal: false,
   };
 
   componentDidMount() {
     this.setState({ products: productsFromServer });
   }
 
+  addProduct = (newProduct: Product) => {
+    this.setState(state => ({
+      products: [...state.products,
+        newProduct],
+    }));
+  };
+
+  showModal = () => {
+    this.setState(state => ({
+      showModal: !state.showModal,
+    }));
+  };
+
   render(): React.ReactNode {
+    const { products, showModal } = this.state;
+
     return (
       <div className="App">
         <div className="App__sidebar">
-          <ProductList products={this.state.products} />
+          <button type="button" onClick={this.showModal} hidden={showModal}>Add product</button>
+          <ProductList products={products} />
         </div>
 
-        <div className="App__content">
-        </div>
+        {showModal && (
+          <div className="App__content">
+            <NewProduct onAdd={this.addProduct} onCancel={this.showModal} />
+          </div>
+        )}
       </div>
     );
   }

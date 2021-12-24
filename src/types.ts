@@ -4,7 +4,7 @@ export interface Product {
   name: string;
   count: number;
   size: Size;
-  weight: string;
+  weight: number;
   comments:Comment[];
 }
 
