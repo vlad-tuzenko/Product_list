@@ -1,0 +1,50 @@
+[
+  {
+  "id": 1,
+  "imageUrl": "https://hotline.ua/img/tx/305/3051705865.jpg",
+  "name": "iPhone 12 Pro Max 128GB Pacific Blue",
+  "count": 15,
+  "size": {
+    "width": 270,
+    "height": 120
+  },
+  "weight": 250,
+  "comments": []
+  },
+  {
+  "id": 2,
+  "imageUrl": "https://hotline.ua/img/tx/298/2989122485.jpg",
+  "name": "iPhone 13 Pro Max 128GB Silver",
+  "count": 10,
+  "size": {
+    "width": 280,
+    "height": 130
+  },
+  "weight": 220,
+  "comments": []
+  },
+  {
+  "id": 3,
+  "imageUrl": "https://hotline.ua/img/tx/239/2391543925.jpg",
+  "name": "iPhone 11 Pro 256GB Space Gray",
+  "count": 25,
+  "size": {
+    "width": 250,
+    "height": 140
+  },
+  "weight": 240,
+  "comments": []
+  },
+  {
+  "id": 4,
+  "imageUrl": "https://hotline.ua/img/tx/158/1580463895.jpg",
+  "name": "iPhone X 64GB Space Gray",
+  "count": 15,
+  "size": {
+    "width": 275,
+    "height": 110
+  },
+  "weight": 260,
+  "comments": []
+  }
+]

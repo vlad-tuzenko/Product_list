@@ -1,0 +1,12 @@
+.NewProduct {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+}
