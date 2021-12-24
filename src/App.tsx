@@ -1,27 +1,33 @@
 import React from 'react';
 import './App.scss';
+// import { ProductItem } from './components/ProductItem';
+import { ProductList } from './components/ProductList';
+import { Product } from './types';
+import productsFromServer from './api/products.json';
 
-interface Props {
-  onClick: () => void;
-}
-
-export const Provider: React.FC<Props> = React.memo(
-  ({ onClick, children }) => (
-    <button
-      type="button"
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  ),
-);
-
-export const App: React.FC = () => {
-  return (
-    <div className="starter">
-      <Provider onClick={() => ({})}>
-        <TodoList />
-      </Provider>
-    </div>
-  );
+type State = {
+  products: Product[]
 };
+
+export class App extends React.Component<{}, State> {
+  state: State = {
+    products: [],
+  };
+
+  componentDidMount() {
+    this.setState({ products: productsFromServer });
+  }
+
+  render(): React.ReactNode {
+    return (
+      <div className="App">
+        <div className="App__sidebar">
+          <ProductList products={this.state.products} />
+        </div>
+
+        <div className="App__content">
+        </div>
+      </div>
+    );
+  }
+}
