@@ -32,12 +32,24 @@ export class NewProduct extends React.Component<Props, State> {
   ) => {
     const { name, value } = event.target;
 
-    this.setState(state => ({
-      newProduct: {
-        ...state.newProduct,
-        [name]: value,
-      },
-    }));
+    if (name === 'width' || name === 'height') {
+      this.setState(state => ({
+        newProduct: {
+          ...state.newProduct,
+          size: {
+            ...state.newProduct.size,
+            [name]: +value,
+          },
+        },
+      }));
+    } else {
+      this.setState(state => ({
+        newProduct: {
+          ...state.newProduct,
+          [name]: value,
+        },
+      }));
+    }
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -176,7 +188,6 @@ export class NewProduct extends React.Component<Props, State> {
               id="comment-input"
               name="comments"
               onChange={this.handleChange}
-              required
             />
           </label>
 

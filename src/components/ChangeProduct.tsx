@@ -33,12 +33,24 @@ export class ChangeProduct extends React.Component<Props, State> {
   ) => {
     const { name, value } = event.target;
 
-    this.setState(state => ({
-      changedProduct: {
-        ...state.changedProduct,
-        [name]: value,
-      },
-    }));
+    if (name === 'width' || name === 'height') {
+      this.setState(state => ({
+        changedProduct: {
+          ...state.changedProduct,
+          size: {
+            ...state.changedProduct.size,
+            [name]: +value,
+          },
+        },
+      }));
+    } else {
+      this.setState(state => ({
+        changedProduct: {
+          ...state.changedProduct,
+          [name]: value,
+        },
+      }));
+    }
   };
 
   handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -92,7 +104,7 @@ export class ChangeProduct extends React.Component<Props, State> {
               name="id"
               value={id}
               onChange={this.handleChange}
-              required
+              disabled
             />
           </label>
 
@@ -158,7 +170,6 @@ export class ChangeProduct extends React.Component<Props, State> {
               id="comment-input"
               name="comments"
               onChange={this.handleChange}
-              required
             />
           </label>
 

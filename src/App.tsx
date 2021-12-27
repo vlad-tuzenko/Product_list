@@ -12,6 +12,7 @@ type State = {
   addProduct: boolean;
   changeProduct: boolean;
   changedProduct: Product | null;
+  sortBy: string;
 };
 
 export class App extends React.Component<{}, State> {
@@ -21,6 +22,7 @@ export class App extends React.Component<{}, State> {
     addProduct: false,
     changeProduct: false,
     changedProduct: null,
+    sortBy: 'name',
   };
 
   componentDidMount() {
@@ -57,19 +59,49 @@ export class App extends React.Component<{}, State> {
 
   saveChange = (changedProduct: Product) => {
     this.setState(state => {
+      const prod = state.products.filter(product => product.id !== changedProduct.id);
+
       return ({
         products: [
-          ...state.products,
+          ...prod,
           changedProduct,
         ],
+        showModal: !state.showModal,
+        changeProduct: !state.changeProduct,
       });
     });
   };
 
+  handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({
+      sortBy: event.target.value,
+    });
+  };
+
+  sortetProductBy = () => {
+    const { sortBy, products } = this.state;
+
+    switch (sortBy) {
+      case 'name': {
+        return products.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      case 'count': {
+        return products.sort((a, b) => b.count - a.count);
+      }
+
+      default: {
+        return products;
+      }
+    }
+  };
+
   render(): React.ReactNode {
     const {
-      products, showModal, addProduct, changeProduct, changedProduct,
+      showModal, addProduct, changeProduct, changedProduct, sortBy,
     } = this.state;
+
+    const sortedProducts = this.sortetProductBy();
 
     return (
       <div className="App">
@@ -79,13 +111,19 @@ export class App extends React.Component<{}, State> {
               className="App__sidebar-btn"
               type="button"
               onClick={this.clickOnAdd}
-              hidden={showModal}
+              disabled={showModal}
             >
               Add product
             </button>
+            <form>
+              <select className="App__sidebar-select" value={sortBy} onChange={this.handleChangeSelect}>
+                <option value="name">Sort by name</option>
+                <option value="count">Sort by count</option>
+              </select>
+            </form>
           </div>
           <ProductList
-            products={products}
+            products={sortedProducts}
             onDelete={this.deleteProduct}
             onChange={this.clickOnChange}
           />
